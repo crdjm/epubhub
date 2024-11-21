@@ -1,7 +1,7 @@
 {
-  "name": "epub-modify",
-  "version": "0.2.0",
-  "description": "Easy to read and edit .epub files.",
+  "name": "epubhub",
+  "version": "0.1.0",
+  "description": "Read and modify EPUB files",
   "main": "lib/index.js",
   "scripts": {
     "start": "tsc -w",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Frully/epub-modify.git"
+    "url": "git+https://github.com/crdjm/epubhub.git"
   },
   "keywords": [
     "epub",
@@ -25,12 +25,12 @@
     "book",
     "ebook"
   ],
-  "author": "Frully <i@frully.org>",
+  "author": "crdjm1@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Frully/epub-modify/issues"
+    "url": "https://github.com/crdjm/epubhub/issues"
   },
-  "homepage": "https://github.com/Frully/epub-modify#readme",
+  "homepage": "https://github.com/crdjm/epubhub#readme",
   "dependencies": {
     "@types/entities": "^1.1.1",
     "cheerio": "^1.0.0-rc.3",
@@ -47,7 +47,7 @@
     "cross-env": "^5.2.0",
     "dotenv": "^8.1.0",
     "jest": "^24.9.0",
-    "rimraf": "^3.0.0",
+    "rimraf": "^3.0.2",
     "source-map-support": "^0.5.13",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
