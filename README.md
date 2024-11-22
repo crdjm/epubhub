@@ -5,7 +5,7 @@
 > functionality I wanted to add in support of various epub related projects,
 > hence my forking this. I am submitting this now just to see if I have a handle on
 > how to create and publish an npm package. More to come...
-> David (crdjm1@gmail.com)
+> David (djm@boulderwall.com)
 
 
 # 📖 epubhub
