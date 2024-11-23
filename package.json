@@ -1,6 +1,6 @@
 {
   "name": "epubhub",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Read and modify EPUB files",
   "main": "lib/index.js",
   "scripts": {
@@ -33,7 +33,7 @@
   "homepage": "https://github.com/crdjm/epubhub#readme",
   "dependencies": {
     "@types/entities": "^1.1.1",
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0",
     "entities": "^2.0.0",
     "fast-xml-parser": "^3.12.20",
     "html-to-text": "^5.1.1",
@@ -52,7 +52,7 @@
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
     "tslint": "^5.19.0",
-    "typescript": "^3.6.2",
+    "typescript": "^5.7.2",
     "vrsource-tslint-rules": "^6.0.0"
   }
 }
