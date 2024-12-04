@@ -1,3 +1,4 @@
-import parseEpub from './parseEpub'
+import parseEpub from "./parseEpub";
+import type { Epub } from "./parseEpub";
 
-export { parseEpub }
+export { parseEpub, Epub };

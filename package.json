@@ -10,9 +10,9 @@
     "clean": "rimraf lib",
     "test": "jest",
     "test:debug": "node --inspect-brk -r ts-node/register node_modules/.bin/jest --runInBand",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm test"
+    "prepare": "npm run build"
   },
+  "declaration": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/crdjm/epubhub.git"
