@@ -7,7 +7,7 @@ import { Item } from "./item";
 import { xml2obj } from "./utils";
 import * as entities from "entities";
 
-function getRoot(opfPath) {
+function getRoot(opfPath: string): string {
   return opfPath.replace(/[^\/]+$/, "").replace(/^\//, "");
 }
 
@@ -35,8 +35,8 @@ export class Epub {
     this.buffer = buffer;
   }
 
-  private handlePath(path) {
-    let newPath;
+  private handlePath(path: string): string {
+    let newPath: string;
 
     if (path[0] === "/") {
       // use absolute path, root is zip root
