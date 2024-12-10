@@ -1,5 +1,5 @@
 import htmlToText from "html-to-text";
-import { xml2obj } from "./utils";
+import { xml2obj, obj2xml } from "./utils";
 
 function getArray(val) {
   if (!val) {
@@ -65,52 +65,56 @@ function parseIdentifier(metadataObj) {
 
 export function parseMetadata(opfObj) {
   const metadataObj = opfObj.package.metadata;
-  let title = getText(metadataObj.title);
 
-  let creators = getArray(metadataObj.creator).map((creator) => {
-    return {
-      name: creator["#text"],
-      role: creator.attr && creator.attr.role,
-    };
-  });
-
-  let publisher = getOne(metadataObj.publisher);
-  let source = getOne(metadataObj.source);
-  let date = getOne(metadataObj.date);
-  let rights = getOne(metadataObj.rights);
-
-  let { isbn, asin } = parseIdentifier(metadataObj);
-
-  const description =
-    metadataObj.description &&
-    htmlToText
-      .fromString(metadataObj.description, {
-        wordwrap: false,
-        ignoreImage: true,
-      })
-      .trim();
-
-  const language = getArray(metadataObj.language);
-
-  const subject = getArray(metadataObj.subject);
-
-  const meta = getArray(metadataObj.meta);
-
-  return {
-    title,
-    creators,
-    publisher,
-    description,
-    language,
-    isbn,
-    asin,
-    subject,
-    meta,
-    source,
-    date,
-    rights,
-  };
+  return getOne(metadataObj);
 }
+
+// let title = getText(metadataObj.title);
+
+// let creators = getArray(metadataObj.creator).map((creator) => {
+//   return {
+//     name: creator["#text"],
+//     role: creator.attr && creator.attr.role,
+//   };
+// });
+
+// let publisher = getOne(metadataObj.publisher);
+// let source = getOne(metadataObj.source);
+// let date = getOne(metadataObj.date);
+// let rights = getOne(metadataObj.rights);
+
+// let { isbn, asin } = parseIdentifier(metadataObj);
+
+// const description =
+//   metadataObj.description &&
+//   htmlToText
+//     .fromString(metadataObj.description, {
+//       wordwrap: false,
+//       ignoreImage: true,
+//     })
+//     .trim();
+
+// const language = getArray(metadataObj.language);
+
+// const subject = getArray(metadataObj.subject);
+
+// const meta = getArray(metadataObj.meta);
+
+// return {
+//   title,
+//   creators,
+//   publisher,
+//   description,
+//   language,
+//   isbn,
+//   asin,
+//   subject,
+//   meta,
+//   source,
+//   date,
+//   rights,
+// };
+// }
 
 export interface Item {
   id: string;
@@ -131,6 +135,7 @@ export function parseOpf(xml) {
   const opfObj: any = xml2obj(xml);
 
   return {
+    full: opfObj,
     version: opfObj.package.attr.version,
     metadata: parseMetadata(opfObj),
     manifest: parseManifest(opfObj),

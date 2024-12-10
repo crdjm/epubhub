@@ -4,7 +4,7 @@ import Zip, { JSZipObject } from "jszip";
 import { parseOpf } from "./parseOpf";
 import { parseNav, parseNcx } from "./parseNav";
 import { Item } from "./item";
-import { xml2obj } from "./utils";
+import { xml2obj, obj2xml } from "./utils";
 import * as entities from "entities";
 
 function getRoot(opfPath: string): string {
@@ -15,6 +15,7 @@ export class Epub {
   private buffer: Buffer;
   private zip: any;
   private root: string;
+  private opf: any;
   private opfPath: string;
   version: string;
   manifest: Item[];
@@ -112,6 +113,18 @@ export class Epub {
     this.setZipFile(this.opfPath, xml);
   }
 
+  // Recreate and save the metadata within the OPF
+  async updateMetadata() {
+    // opf.full is the full version of the OPF, which we need to replace the updated metadata
+    // but leave everything else. We have also created a more abstract version of the metadata, spine, etc
+    // for easier processing
+    this.opf.full.package.metadata = this.metadata;
+    const newOpfXML =
+      "<?xml version='1.0' encoding='UTF-8'?>\n" + obj2xml(this.opf.full);
+
+    await this.setFileText(this.opfPath, newOpfXML);
+  }
+
   private createItemIndex() {
     this.itemIndex = {};
 
@@ -152,22 +165,24 @@ export class Epub {
     this.root = getRoot(this.opfPath);
 
     const opfXml = await this.getFileText(this.opfPath);
-    const opf = parseOpf(opfXml);
 
-    this.version = opf.version;
-    this.metadata = opf.metadata;
+    // Make the full opf a class variable, so we can update and save it
+    this.opf = parseOpf(opfXml);
 
-    // DJM -- the mimetype file should not be compressed in an epub
+    this.version = this.opf.version;
+    this.metadata = this.opf.metadata;
+
+    // The mimetype file should not be compressed in an epub
     const mimefile = await this.zip.file("mimetype");
     mimefile.options.compression = "STORE";
 
-    this.manifest = opf.manifest.map((item) => {
+    this.manifest = this.opf.manifest.map((item) => {
       return new Item(item, this);
     });
 
     this.createItemIndex();
 
-    this.spine = opf.spine.map((itemref) => {
+    this.spine = this.opf.spine.map((itemref) => {
       return {
         ...itemref,
         item: this.findItemById(itemref.idref),
@@ -180,8 +195,8 @@ export class Epub {
       this.nav = parseNav(await navFile.getText());
     } else {
       let ncxFile;
-      if (opf.ncxId) {
-        ncxFile = this.findItemById(opf.ncxId);
+      if (this.opf.ncxId) {
+        ncxFile = this.findItemById(this.opf.ncxId);
       }
       if (!ncxFile) {
         ncxFile = this.findItem({ "media-type": "application/x-dtbncx+xml" });
